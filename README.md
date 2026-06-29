@@ -37,6 +37,28 @@ does not**, and the failure paths (missing key, rotated key) return clean errors
 
 ---
 
+## Command-line client (`cli.py`)
+
+A tiny terminal client for asking the server questions without a browser. It goes through
+the real MCP tool layer, so you see exactly what an agent would get.
+
+```bash
+python cli.py                 # interactive REPL (in-memory server)
+python cli.py --docker        # interactive REPL against the Docker container
+python cli.py stores          # one-shot command, then exit
+python cli.py stock 47 8847291
+python cli.py order 47 8847291 24 projected stockout before next delivery
+```
+
+REPL commands: `stores`, `sku <sku>`, `stock <store> <sku> [hours]`,
+`order <store> <sku> <qty> <reason...>`, `dry <store> <sku> <qty> <reason...>`,
+`status <store> <order_id>`, `help`, `quit`.
+
+Tip: `--docker` passes arguments to `docker` as a list, so a space in your project path is
+fine here — unlike the browser MCP Inspector, which splits the command on spaces.
+
+---
+
 ## Tool surface — and the decisions behind it
 
 The agent sees **exactly 5 tools**, not the 8 StoreLink endpoints. The endpoints are an
