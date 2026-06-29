@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import io
 import math
+import os
 
 from clock import SystemClock
 from observability import AuditLogger, DebugLogger
@@ -48,7 +49,10 @@ def agent_order_quantity(position: dict) -> int:
 
 
 SKU = "8847291"
-AUDIT_PATH = "./audit.log"
+# Honour the same env vars as the server, so the smoke test runs unchanged inside the
+# Docker image with keys mounted and the audit log pointed at a writable path.
+KEYS_PATH = os.environ.get("KORRAL_KEYS_FILE", "./secrets/keys.json")
+AUDIT_PATH = os.environ.get("KORRAL_AUDIT_LOG", "./audit.log")
 
 
 def build_demo_service():
@@ -57,7 +61,7 @@ def build_demo_service():
     debug_stream = io.StringIO()
     clock = SystemClock()  # one shared clock = drift-free time math
     service = KorralService(
-        client=InMemoryStoreLinkClient(FileKeyProvider("./secrets/keys.json"), clock=clock),
+        client=InMemoryStoreLinkClient(FileKeyProvider(KEYS_PATH), clock=clock),
         debug_logger=DebugLogger(stream=debug_stream),
         audit_logger=AuditLogger(AUDIT_PATH),
         clock=clock,

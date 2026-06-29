@@ -10,8 +10,9 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Application code only -- NO secrets, ever.
-COPY server.py storelink_client.py secrets_loader.py observability.py ./
+# Application code only -- NO secrets, ever. smoke_test.py is included so the image can
+# self-verify (`docker run --entrypoint python ... smoke_test.py`).
+COPY server.py storelink_client.py secrets_loader.py observability.py clock.py smoke_test.py ./
 
 # Runtime config. Keys are MOUNTED at /var/run/korral/keys.json (e.g. from Secret Manager);
 # the audit log goes to a mounted, persistent volume.
