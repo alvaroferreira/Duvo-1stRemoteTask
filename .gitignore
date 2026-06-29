@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+audit.log
+debug.log
+.DS_Store
+.claude/
+
+# Real secrets must never be committed. secrets/keys.json here is DEMO data only.
+# In production the key map comes from Secret Manager, mounted at runtime.

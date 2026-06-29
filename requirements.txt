@@ -1,0 +1,11 @@
+# --- Runtime (pinned to exact versions) ---
+fastmcp==3.4.2
+
+# Key transitive deps resolved by the above, pinned here for a reproducible build.
+# (Run `pip freeze > requirements.lock.txt` for a full lock if you want every transitive
+#  dependency captured.)
+mcp==1.28.1
+pydantic==2.13.4
+
+# --- Dev / test only ---
+pytest==9.1.1
